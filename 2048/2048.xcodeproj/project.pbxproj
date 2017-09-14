@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00607E7E1F63938B00606439 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00607E7D1F63938B00606439 /* GridView.swift */; };
 		0092C6A31F33AEDC0003DB8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0092C6A21F33AEDC0003DB8D /* AppDelegate.swift */; };
 		0092C6AA1F33AEDC0003DB8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0092C6A81F33AEDC0003DB8D /* Main.storyboard */; };
 		0092C6AC1F33AEDC0003DB8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0092C6AB1F33AEDC0003DB8D /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00607E7D1F63938B00606439 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		0092C69F1F33AEDC0003DB8D /* 2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 2048.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0092C6A21F33AEDC0003DB8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0092C6A91F33AEDC0003DB8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				0092C6D41F33AF8B0003DB8D /* CustomizeVC.swift */,
 				0092C6D61F33B1490003DB8D /* Grid.swift */,
 				0092C6A81F33AEDC0003DB8D /* Main.storyboard */,
+				00607E7D1F63938B00606439 /* GridView.swift */,
 				0092C6AB1F33AEDC0003DB8D /* Assets.xcassets */,
 				0092C6AD1F33AEDC0003DB8D /* LaunchScreen.storyboard */,
 				0092C6B01F33AEDC0003DB8D /* Info.plist */,
@@ -199,6 +202,7 @@
 				TargetAttributes = {
 					0092C69E1F33AEDC0003DB8D = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 68J7K4C49M;
 						ProvisioningStyle = Automatic;
 					};
 					0092C6B41F33AEDD0003DB8D = {
@@ -268,6 +272,7 @@
 				0092C6D31F33AF790003DB8D /* GameVC.swift in Sources */,
 				0092C6A31F33AEDC0003DB8D /* AppDelegate.swift in Sources */,
 				0092C6D51F33AF8B0003DB8D /* CustomizeVC.swift in Sources */,
+				00607E7E1F63938B00606439 /* GridView.swift in Sources */,
 				0092C6D71F33B1490003DB8D /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +427,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 68J7K4C49M;
 				INFOPLIST_FILE = 2048/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "hello.-048";
@@ -434,6 +440,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 68J7K4C49M;
 				INFOPLIST_FILE = 2048/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "hello.-048";
@@ -515,6 +522,7 @@
 				0092C6CB1F33AEDD0003DB8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0092C6CC1F33AEDD0003DB8D /* Build configuration list for PBXNativeTarget "2048Tests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +531,7 @@
 				0092C6CE1F33AEDD0003DB8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0092C6CF1F33AEDD0003DB8D /* Build configuration list for PBXNativeTarget "2048UITests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +540,7 @@
 				0092C6D11F33AEDD0003DB8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
