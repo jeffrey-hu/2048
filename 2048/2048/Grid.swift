@@ -79,11 +79,6 @@ struct Grid : GridProtocol {
     
 }
 
-extension Grid {
-    mutating func goUp () {
-    }
-}
-
 //handles movement functions
 extension Grid {
     mutating func up () {
@@ -146,7 +141,6 @@ extension Grid {
     
     mutating func down () {
         for x in stride(from: 2, to: -1, by: -1) {
-            print(x)
             for y in 0..<cols {
                 if cells[x][y].value != nil {
                     if let nextOccupiedCell = findNextOccupiedCellDown(x, y) {
