@@ -79,7 +79,7 @@ struct Grid : GridProtocol {
     
 }
 
-//handles movement functions
+//handles up movement
 extension Grid {
     mutating func up () {
         for x in stride(from: 1, to: rows, by : 1) {
@@ -142,26 +142,30 @@ extension Grid {
         }
         return nil
     }
+}
+
+//handles down movement
+extension Grid {
     
     mutating func down () {
         for x in stride(from: 2, to: -1, by: -1) {
             for y in 0..<cols {
                 if cells[x][y].value != nil {
+                    var combine = false
                     if let nextOccupiedCell = findNextOccupiedCellDown(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
-                        } else {
-                            if let farthestAvailableCell = findFarthestAvailableCellDown(x, y,
-                                                                                     from: nextOccupiedCell.0) {
-                                cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
-                                cells[x][y].value = nil
-                                gridHasChanged = true
-                            }
+                            combine = true
                         }
-                    } else {
-                        if let farthestAvailableCell = findFarthestAvailableCellDown(x, y, from: 3) {
+                    }
+                    if combine == false {
+                        var startX = 3
+                        if let nextOccupiedCell = findNextOccupiedCellDown(x, y){
+                            startX = nextOccupiedCell.0
+                        }
+                        if let farthestAvailableCell = findFarthestAvailableCellDown(x, y, from: startX) {
                             cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
                             cells[x][y].value = nil
                             gridHasChanged = true
@@ -200,7 +204,10 @@ extension Grid {
         }
         return nil
     }
-    
+}
+
+//handles right movement
+extension Grid {
     mutating func right () {
         for y in stride(from: 2, to: -1, by: -1) {
             for x in 0..<rows {
@@ -258,7 +265,10 @@ extension Grid {
         }
         return nil
     }
-    
+}
+
+//handles left movement
+extension Grid{
     mutating func left () {
         for y in stride(from: 0, to: cols, by: 1) {
             for x in 0..<rows {
