@@ -85,21 +85,25 @@ extension Grid {
         for x in stride(from: 1, to: rows, by : 1) {
             for y in 0..<cols {
                 if cells[x][y].value != nil {
+                    var combine = false
+                    //if there is a next occupied cell with the same values, the 2 values combine
                     if let nextOccupiedCell = findNextOccupiedCellUp(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
-                        } else {
-                            if let farthestAvailableCell = findFarthestAvailableCellUp(x, y,
-                                                            from: nextOccupiedCell.0) {
-                                cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
-                                cells[x][y].value = nil
-                                gridHasChanged = true
-                            }
+                            combine = true
                         }
-                    } else {
-                        if let farthestAvailableCell = findFarthestAvailableCellUp(x, y, from: 0) {
+                    }
+                    
+                    //if no combination happens, this block runs
+                    if combine == false{
+                        var startX = 0 //this variable is going to be a parameter for findFarthestAvailableCell function
+                        //if there is a next occupied cell, startX is that cell's x value, otherwise it is 0
+                        if let nextOccupiedCell = findNextOccupiedCellUp(x, y){
+                            startX = nextOccupiedCell.0
+                        }
+                        if let farthestAvailableCell = findFarthestAvailableCellUp(x, y, from: startX) {
                             cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
                             cells[x][y].value = nil
                             gridHasChanged = true
