@@ -35,10 +35,6 @@ class GameVC: UIViewController {
         setupListener()
         cellArray = [[cell00, cell01, cell02, cell03],[cell10, cell11, cell12, cell13],[cell20, cell21, cell22, cell23],
                      [cell30, cell31, cell32, cell33]]
-//        gridView.grid.cells[0][2].value = 2
-//        gridView.grid.cells[1][2].value = 8
-//        gridView.grid.cells[2][2].value = 4
-//        gridView.grid.cells[3][2].value = 4
         gridView.grid.updateCellTitles()
         gridView.grid.generateRandom()
         addSwipeHandlerUp()
@@ -96,6 +92,7 @@ extension GameVC {
     }
 }
 
+//recognizes gestures for swiping up, down, left, right
 extension GameVC {
     func addSwipeHandlerUp() {
         let handler = #selector(userSwipedUp(recognizer:))

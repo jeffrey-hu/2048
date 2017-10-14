@@ -211,22 +211,22 @@ extension Grid {
     mutating func right () {
         for y in stride(from: 2, to: -1, by: -1) {
             for x in 0..<rows {
+                var combine = false
                 if cells[x][y].value != nil {
                     if let nextOccupiedCell = findNextOccupiedCellRight(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
-                        } else {
-                            if let farthestAvailableCell = findFarthestAvailableCellRight(x, y,
-                                                                                         from: nextOccupiedCell.1) {
-                                cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
-                                cells[x][y].value = nil
-                                gridHasChanged = true
-                            }
+                            combine = true
                         }
-                    } else {
-                        if let farthestAvailableCell = findFarthestAvailableCellRight(x, y, from: 3) {
+                    }
+                    if combine == false {
+                        var startY = 3
+                        if let nextOccupiedCell = findNextOccupiedCellRight(x, y){
+                            startY = nextOccupiedCell.1
+                        }
+                        if let farthestAvailableCell = findFarthestAvailableCellRight(x, y, from: startY) {
                             cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
                             cells[x][y].value = nil
                             gridHasChanged = true
@@ -272,22 +272,23 @@ extension Grid{
     mutating func left () {
         for y in stride(from: 0, to: cols, by: 1) {
             for x in 0..<rows {
+                var combine = false
                 if cells[x][y].value != nil {
                     if let nextOccupiedCell = findNextOccupiedCellLeft(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
-                        } else {
-                            if let farthestAvailableCell = findFarthestAvailableCellLeft(x, y,
-                                                                                          from: nextOccupiedCell.1) {
-                                cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
-                                cells[x][y].value = nil
-                                gridHasChanged = true
-                            }
+                            combine = true
                         }
-                    } else {
-                        if let farthestAvailableCell = findFarthestAvailableCellLeft(x, y, from: 0) {
+                    }
+                    
+                    if combine == false {
+                        var startY = 0
+                        if let nextOccupiedCell = findNextOccupiedCellLeft(x, y){
+                            startY = nextOccupiedCell.1
+                        }
+                        if let farthestAvailableCell = findFarthestAvailableCellLeft(x, y, from: startY) {
                             cells[farthestAvailableCell.0][farthestAvailableCell.1].value = cells[x][y].value
                             cells[x][y].value = nil
                             gridHasChanged = true
