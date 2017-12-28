@@ -27,6 +27,20 @@ class GameVC: UIViewController {
     @IBOutlet weak var cell32: UILabel!
     @IBOutlet weak var cell33: UILabel!
     @IBOutlet weak var gridView: GridView!
+    @IBAction func reset(_ sender: Any) {
+        if let context = container?.viewContext{
+            if let savedValues = fetchDatabase(with: context){
+                deleteDatabase(with: savedValues, and: context)
+            }
+        }
+        for row in 0..<4{
+            for col in 0..<4{
+                gridView.grid.cells[row][col].value = nil
+            }
+        }
+        gridView.grid.generateRandom()
+        gridView.grid.updateCellTitles()
+    }
     
     
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
@@ -36,7 +50,13 @@ class GameVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupListener()
+        addSwipeHandlerUp()
+        addSwipeHandlerDown()
+        addSwipeHandlerRight()
+        addSwipeHandlerLeft()
+        cellArray = [[cell00, cell01, cell02, cell03],[cell10, cell11, cell12, cell13],[cell20, cell21, cell22, cell23],
+                     [cell30, cell31, cell32, cell33]]
         
         // Do any additional setup after loading the view.
     }
@@ -62,36 +82,30 @@ class GameVC: UIViewController {
                 }
             }
             try? context.save()
+            saved = true
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("view will appear called")
         if let context = container?.viewContext{
-            print("there is a view context")
-            let request : NSFetchRequest<GridValue> = GridValue.fetchRequest()
-            if let savedValues = try? context.fetch(request) {
-                print(savedValues.count)
-                for object in savedValues{
-                    print(object.value)
-                }
-                updateGridWithDatabase(with : savedValues)
+            if let savedValues = fetchDatabase(with: context){
+                updateGridWithDatabase(with: savedValues)
                 deleteDatabase(with: savedValues, and: context)
             }
         }
-        
-        setupListener()
-        cellArray = [[cell00, cell01, cell02, cell03],[cell10, cell11, cell12, cell13],[cell20, cell21, cell22, cell23],
-                     [cell30, cell31, cell32, cell33]]
-        gridView.grid.updateCellTitles()
+
         if saved == false{
             gridView.grid.generateRandom()
         }
-        addSwipeHandlerUp()
-        addSwipeHandlerDown()
-        addSwipeHandlerRight()
-        addSwipeHandlerLeft()
-        
+        gridView.grid.updateCellTitles()
+    }
+    
+    func fetchDatabase(with context : NSManagedObjectContext) -> [GridValue]?{
+            let request : NSFetchRequest<GridValue> = GridValue.fetchRequest()
+            if let savedValues = try? context.fetch(request) {
+                return savedValues
+            }
+        return nil
     }
     
     func updateGridWithDatabase(with savedValues : Array<GridValue>){
