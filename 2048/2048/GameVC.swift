@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class GameVC: UIViewController {
     @IBOutlet weak var cell00: UILabel!
@@ -27,20 +28,15 @@ class GameVC: UIViewController {
     @IBOutlet weak var cell33: UILabel!
     @IBOutlet weak var gridView: GridView!
     
+    
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     var cellArray = [[UILabel?]]()
+    var saved = true
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupListener()
-        cellArray = [[cell00, cell01, cell02, cell03],[cell10, cell11, cell12, cell13],[cell20, cell21, cell22, cell23],
-                     [cell30, cell31, cell32, cell33]]
-        gridView.grid.updateCellTitles()
-        gridView.grid.generateRandom()
-        addSwipeHandlerUp()
-        addSwipeHandlerDown()
-        addSwipeHandlerRight() 
-        addSwipeHandlerLeft()
+
         
         // Do any additional setup after loading the view.
     }
@@ -50,6 +46,67 @@ class GameVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        print("view will disappear")
+        if let context = container?.viewContext{
+            for row in 0..<4{
+                for col in 0..<4{
+                    let valueObject = GridValue(context: context)
+                    valueObject.row = Int32(row)
+                    valueObject.col = Int32(col)
+                    if let num = gridView.grid.cells[row][col].value {
+                        valueObject.value = Int32(num)
+                    } else {
+                        valueObject.value = Int32(0)
+                    }
+                }
+            }
+            try? context.save()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("view will appear called")
+        if let context = container?.viewContext{
+            print("there is a view context")
+            let request : NSFetchRequest<GridValue> = GridValue.fetchRequest()
+            if let savedValues = try? context.fetch(request) {
+                print(savedValues.count)
+                for object in savedValues{
+                    print(object.value)
+                }
+                updateGridWithDatabase(with : savedValues)
+                deleteDatabase(with: savedValues, and: context)
+            }
+        }
+        
+        setupListener()
+        cellArray = [[cell00, cell01, cell02, cell03],[cell10, cell11, cell12, cell13],[cell20, cell21, cell22, cell23],
+                     [cell30, cell31, cell32, cell33]]
+        gridView.grid.updateCellTitles()
+        if saved == false{
+            gridView.grid.generateRandom()
+        }
+        addSwipeHandlerUp()
+        addSwipeHandlerDown()
+        addSwipeHandlerRight()
+        addSwipeHandlerLeft()
+        
+    }
+    
+    func updateGridWithDatabase(with savedValues : Array<GridValue>){
+        for object in savedValues{
+            if Int(object.value) != 0 {
+                gridView.grid.cells[Int(object.row)][Int(object.col)].value = Int(object.value)
+            }
+        }
+    }
+    
+    func deleteDatabase(with savedValues: Array<GridValue>, and context : NSManagedObjectContext){
+        for object in savedValues{
+            context.delete(object)
+        }
+    }
     
     
 
