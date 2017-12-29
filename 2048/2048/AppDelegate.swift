@@ -39,18 +39,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-//        print("app will terminate")
-//        if let wind = window{
-//            print("found window")
-//            if let hi = window?.rootViewController {
-//                print(type(of: hi))
-//            }
-//        }
-        if let nvc = (window?.rootViewController as? UITabBarController)?.viewControllers![0]{
-            print("nvc found")
-            nvc.viewWillDisappear(false)
+
+        if let gameVC = (window?.rootViewController as? UITabBarController)?.viewControllers![0] as? GameVC{
+            gameVC.viewWillDisappear(false)
+            gameVC.updateScoresToDatabase()
         }
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
         self.saveContext()
     }
     

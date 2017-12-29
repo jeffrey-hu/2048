@@ -29,6 +29,13 @@ struct Cell : CellProtocol {
 }
 
 struct Grid : GridProtocol {
+    var highScore = 0
+    var currentScore = 0 {
+        willSet{
+            highScore = newValue > highScore ? newValue : highScore
+        }  
+    }
+    
     var rows : Int
     var cols : Int
     var cells : [[Cell]]
@@ -89,6 +96,7 @@ extension Grid {
                     //if there is a next occupied cell with the same values, the 2 values combine
                     if let nextOccupiedCell = findNextOccupiedCellUp(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
+                            currentScore += cells[x][y].value! * 2
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
@@ -154,6 +162,7 @@ extension Grid {
                     var combine = false
                     if let nextOccupiedCell = findNextOccupiedCellDown(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
+                            currentScore += cells[x][y].value! * 2
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
@@ -215,6 +224,7 @@ extension Grid {
                 if cells[x][y].value != nil {
                     if let nextOccupiedCell = findNextOccupiedCellRight(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
+                            currentScore += cells[x][y].value! * 2
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
@@ -276,6 +286,7 @@ extension Grid{
                 if cells[x][y].value != nil {
                     if let nextOccupiedCell = findNextOccupiedCellLeft(x, y) {
                         if cells[x][y].value == cells[nextOccupiedCell.0][nextOccupiedCell.1].value {
+                            currentScore += cells[x][y].value! * 2
                             cells[nextOccupiedCell.0][nextOccupiedCell.1].value = cells[x][y].value! * 2
                             cells[x][y].value = nil
                             gridHasChanged = true
@@ -333,7 +344,7 @@ extension Grid{
 extension Grid {
     func updateCellTitles (){
         NotificationCenter.default.post(name: Names.cellValues,
-                                        object: cells,
+                                        object: (cells, currentScore, highScore),
                                         userInfo: nil)
     }
 }

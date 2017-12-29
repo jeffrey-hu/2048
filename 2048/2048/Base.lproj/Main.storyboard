@@ -265,7 +265,7 @@
                                         <color key="backgroundColor" red="1" green="0.45611841573698719" blue="0.36959898297643512" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b20-4l-XD8">
-                                        <rect key="frame" x="147" y="69" width="81" height="45"/>
+                                        <rect key="frame" x="147" y="485" width="81" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                         <state key="normal" title="Reset">
@@ -275,6 +275,20 @@
                                             <action selector="reset:" destination="gWr-Ez-bZ7" eventType="touchUpInside" id="n9b-bC-Led"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Record:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILN-nC-T2e">
+                                        <rect key="frame" x="122" y="39" width="190" height="56"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x0p-zH-hns">
+                                        <rect key="frame" x="131" y="103" width="190" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96660333871841431" green="0.92885476350784302" blue="0.88105267286300659" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -309,7 +323,9 @@
                         <outlet property="cell31" destination="H1d-Le-ewt" id="Dff-9X-Fwq"/>
                         <outlet property="cell32" destination="cZR-I4-fz3" id="J0t-zZ-PhZ"/>
                         <outlet property="cell33" destination="D7f-Rq-yrD" id="5ST-B4-NS3"/>
+                        <outlet property="currentScoreLabel" destination="x0p-zH-hns" id="tb1-rL-LjP"/>
                         <outlet property="gridView" destination="0I1-fb-9NB" id="aMD-A4-4dv"/>
+                        <outlet property="highScoreLabel" destination="ILN-nC-T2e" id="c0L-gh-Dk5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vdO-q5-udT" userLabel="First Responder" sceneMemberID="firstResponder"/>

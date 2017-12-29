@@ -27,6 +27,12 @@ class GameVC: UIViewController {
     @IBOutlet weak var cell32: UILabel!
     @IBOutlet weak var cell33: UILabel!
     @IBOutlet weak var gridView: GridView!
+    @IBOutlet weak var highScoreLabel: UILabel!
+    @IBOutlet weak var currentScoreLabel: UILabel!
+    
+    var highScore = 0
+    var currentScore = 0
+    
     @IBAction func reset(_ sender: Any) {
         if let context = container?.viewContext{
             if let savedValues = fetchDatabase(with: context){
@@ -40,6 +46,7 @@ class GameVC: UIViewController {
         }
         gridView.grid.generateRandom()
         gridView.grid.updateCellTitles()
+        resetCurrentScore()
     }
     
     
@@ -58,8 +65,13 @@ class GameVC: UIViewController {
         cellArray = [[cell00, cell01, cell02, cell03],[cell10, cell11, cell12, cell13],[cell20, cell21, cell22, cell23],
                      [cell30, cell31, cell32, cell33]]
         
+        updateScoresFromDatabase()
+        
+        
         // Do any additional setup after loading the view.
     }
+    
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -67,7 +79,6 @@ class GameVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("view will disappear")
         if let context = container?.viewContext{
             for row in 0..<4{
                 for col in 0..<4{
@@ -83,6 +94,49 @@ class GameVC: UIViewController {
             }
             try? context.save()
             saved = true
+        }
+    }
+    
+    func updateScoresToDatabase(){
+        if let context = container?.viewContext{
+            let request : NSFetchRequest<ScoreKeeper> = ScoreKeeper.fetchRequest()
+            if let scores = try? context.fetch(request){
+                for score in scores{
+                    context.delete(score)
+                }
+            }
+                
+                
+                
+            let scoreObject = ScoreKeeper(context: context)
+            scoreObject.currentScore = Int32(currentScore)
+            scoreObject.highScore = Int32(highScore)
+            try? context.save()
+        }
+    }
+    
+    func updateScoresFromDatabase(){
+        if let context = container?.viewContext{
+            let request : NSFetchRequest<ScoreKeeper> = ScoreKeeper.fetchRequest()
+            if let scores = try? context.fetch(request){
+                if scores.count > 0{
+                    gridView.grid.currentScore = Int(scores[0].currentScore)
+                    gridView.grid.highScore = Int(scores[0].highScore)
+                }
+            }
+        }
+    }
+    
+    func resetCurrentScore(){
+        gridView.grid.currentScore = 0
+        gridView.grid.updateCellTitles()
+        if let context = container?.viewContext{
+            let request : NSFetchRequest<ScoreKeeper> = ScoreKeeper.fetchRequest()
+            if let scores = try? context.fetch(request){
+                if scores.count > 0{
+                    scores[0].currentScore = 0
+                }
+            }
         }
     }
     
@@ -147,9 +201,10 @@ extension GameVC {
     }
     
     func updateCellTitles(notification: Notification) {
-        guard let cells = notification.object as? [[Cell]] else {
+        guard let object = notification.object as? ([[Cell]], Int, Int) else {
             return
         }
+        let cells = object.0
         for x in 0..<4 {
             for y in 0..<4 {
                 if let value = cells[x][y].value {
@@ -160,6 +215,15 @@ extension GameVC {
                 }
             }
         }
+        currentScore = object.1
+        highScore = object.2
+        currentScoreLabel.text = "Score: \(currentScore)"
+        highScoreLabel.text = "Record: \(highScore)"
+        if object.1 >= object.2 {
+            currentScoreLabel.textColor = UIColor(displayP3Red: 0.85, green: 0.1, blue: 0.2, alpha: 1.0)
+            highScoreLabel.textColor = UIColor(displayP3Red: 0.85, green: 0.1, blue: 0.2, alpha: 1.0)
+        }
+        
     }
 }
 
